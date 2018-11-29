@@ -2,8 +2,6 @@ package com.wei.model.syslog;
 
 
 
-import com.wei.untils.json.JsonUtils;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -83,8 +81,4 @@ public class SysLog implements Serializable {
 		this.createTime = createTime;
 	}
 
-	@Override
-	public String toString() {
-		return JsonUtils.toJson(this);
-	}
 }
