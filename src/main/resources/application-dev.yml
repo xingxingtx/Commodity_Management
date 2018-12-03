@@ -7,7 +7,7 @@ spring:
         druid:
           #监控统计拦截的filters
           filters: stat
-          driver-class-name: com.mysql.cj.jdbc.Driver
+          driver-class-name: com.mysql.jdbc.Driver
           #基本属性
           url: jdbc:mysql://localhost:3306/commodity_management?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
           username: root
@@ -59,6 +59,18 @@ spring:
 #静态资源存放路径
     resources:
       static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
+## Freemarker 配置
+## 文件配置路径
+    freemarker:
+      template-loader-path: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
+      cache: false
+      charset: UTF-8
+      check-template-location: true
+      content-type: text/html
+      expose-request-attributes: true
+      expose-session-attributes: true
+      request-context-attribute: request
+      suffix: .ftl
 #sql打印
 logging:
   level:
