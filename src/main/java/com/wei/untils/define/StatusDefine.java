@@ -16,6 +16,10 @@ public interface StatusDefine {
      * 文件相关 700X
      *自定义异常相关 900X
      * */
+    //启用
+    public static final int STATE_ABLE = 1;
+    //删除
+    public static final int STATE_DELETE= 0;
     //操作成功
     public static final int SUCCESS = 0;
     public static final int FAILURE = -1;
