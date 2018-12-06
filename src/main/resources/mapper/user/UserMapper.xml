@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.mapper.user.UserMapper">
+
+    <sql id="baseSql">
+      us.id,
+      us.login_name AS loginName,
+      us.password ,
+      us.sex,
+      us.id_number AS idNumber,
+      us.age,
+      us.phone,
+      us.state,
+      us.create_time AS createTime,
+      us.update_time AS updateTime,
+      us.create_user AS createUser,
+      us.update_user AS updateUser
+    </sql>
+
+<select id="selectByLoginName" resultType="com.wei.model.user.UserModel">
+    SELECT
+    <include refid="baseSql"/>
+    FROM user us
+    WHERE
+      1=1
+    <if test="id != null ">
+      AND  us.id = #{id}
+    </if>
+    <if test="loginName != null and loginName !=''">
+      AND us.login_name = #{loginName}
+    </if>
+    <if test="idNumber !=null and idNumber != '' ">
+      AND us.id_number = #{idNumber}
+    </if>
+</select>
+
+</mapper>

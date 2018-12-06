@@ -36,9 +36,13 @@ drop table if exists user;
 
 drop table if exists user_role;
 
+drop table IF exists `resource`;
+
+DROP TABLE IF EXISTS `role_resource`;
 /*==============================================================*/
 /* Table: activity                                              */
 /*==============================================================*/
+
 create table activity
 (
    id                   bigint not null comment '主键id',
@@ -349,6 +353,32 @@ create table user_role
 );
 
 alter table user_role comment '用户角色表';
+-- ----------------------------
+-- Table structure for `resource`
+-- ----------------------------
+CREATE TABLE `resource` (
+  `id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(64) NOT NULL COMMENT '资源名称',
+  `url` varchar(100) DEFAULT NULL COMMENT '资源路径',
+  `open_mode` varchar(32) DEFAULT NULL COMMENT '打开方式 ajax,iframe',
+  `description` varchar(255) DEFAULT NULL COMMENT '资源介绍',
+  `icon` varchar(32) DEFAULT NULL COMMENT '资源图标',
+  `pid` bigint(19) DEFAULT NULL COMMENT '父级资源id',
+  `seq` tinyint(2) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
+  `opened` tinyint(2) NOT NULL DEFAULT '1' COMMENT '打开状态',
+  `resource_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '资源类别',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=utf8 COMMENT='资源';
+
+CREATE TABLE `role_resource` (
+  `id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `role_id` bigint(19) NOT NULL COMMENT '角色id',
+  `resource_id` bigint(19) NOT NULL COMMENT '资源id',
+  PRIMARY KEY (`id`),
+  KEY `idx_role_resource_ids` (`role_id`,`resource_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=463 DEFAULT CHARSET=utf8 COMMENT='角色资源';
 
 alter table activity add constraint FK_Reference_11 foreign key (merchant_id)
       references merchant (id) on delete restrict on update restrict;

@@ -1,6 +1,4 @@
-package com.wei.service.syslog.impl;/**
- * Created by Administrator on 2018/11/29.
- */
+package com.wei.service.syslog.impl;
 
 import com.wei.mapper.syslog.SyslogMapper;
 import com.wei.model.syslog.SysLog;

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.mapper.role.RoleMapper">
+
+
+    <select id="selectRoleIdListByUserId" resultType="com.wei.model.role.RoleModel" parameterType="integer">
+        SELECT
+         role_id as id
+        FROM user_role
+        WHERE 1=1
+        AND state = 1
+        <if test="userId !=null ">
+           AND user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectResourceListByRoleId" resultType="java.util.HashMap">
+       SELECT
+            e.id AS id,
+            s.url AS url
+        FROM
+            role r
+        LEFT JOIN role_resource e ON r.id = e.role_id
+        LEFT JOIN resource s ON e.resource_id = s.id
+        WHERE
+            r.id = #{id}
+    </select>
+    <select id="selectById" resultType="com.wei.model.role.RoleModel">
+        select
+          id,
+          role_name AS roleName,
+          description AS  description,
+        from role
+        WHERE state = 1
+    </select>
+</mapper>
