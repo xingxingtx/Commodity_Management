@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * shiro密码盐加密所用
  * 此处为了redis缓存实现序列化
- * @author L.cm
+ * @author wei.peng
  *
  */
 public class ShiroByteSource implements ByteSource, Serializable {

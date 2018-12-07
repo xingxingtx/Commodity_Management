@@ -1,0 +1,31 @@
+package com.wei.config.shiro;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+/**
+ * @Author:wei.peng
+ * @Desicription:解决跨域 options 请求不带session 出现302错误问题
+ * @Date:Created in 2018/9/26 15:37
+ * @Modified By:
+ */
+public class ShiroOptionsFilter extends FormAuthenticationFilter {
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        boolean allowed = super.isAccessAllowed(request, response, mappedValue);
+        if (!allowed) {
+            // 判断请求是否是options请求
+            String method = WebUtils.toHttp(request).getMethod();
+            if (StringUtils.equalsIgnoreCase("OPTIONS", method)) {
+                return true;
+            }
+        }
+        return allowed;
+    }
+
+}

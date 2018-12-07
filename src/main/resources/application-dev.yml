@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8085
 spring:
     datasource:
         name: mysql_test
@@ -37,7 +37,7 @@ spring:
         #开启MVC thymeleaf 视图解析
         enabled: true
         encoding: utf-8
-        mode: LEGACYHTML5
+        mode: HTML5
         prefix: classpath:/templates/
         suffix: .html
     aop:
@@ -71,6 +71,11 @@ spring:
       expose-session-attributes: true
       request-context-attribute: request
       suffix: .ftl
+    redis:
+           host: 192.168.1.64
+           #host: 192.168.1.114
+           port: 6379
+
 #sql打印
 logging:
   level:
