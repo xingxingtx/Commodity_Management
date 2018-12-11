@@ -86,8 +86,8 @@ public class ShiroConfiguration {
         map.put("/logout", "logout");//成功后重定向到主页  跨域不可用
 //      <!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->;
 //      <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问 使用@RequiresPermissions("")配置接口权限-->
-        map.put("/**", "authc");
-  //      map.put("/**", "anon");
+       // map.put("/**", "authc");
+      map.put("/**", "anon");
 
 //        设置登录url，，未登录时请求的
         shiroFilterFactoryBean.setLoginUrl("/api/unauth");

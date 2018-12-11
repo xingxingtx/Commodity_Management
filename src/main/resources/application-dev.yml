@@ -75,6 +75,7 @@ spring:
            host: 192.168.1.64
            #host: 192.168.1.114
            port: 6379
+    jackson:
 
 #sql打印
 logging:
@@ -86,3 +87,10 @@ swagger:
 #配置mybatis扫描位置
 mybatis:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
+
+#配置代码生产有关参数 com.wei.generator.GeneratorCode
+generator:
+  geDriver: com.mysql.jdbc.Driver
+  geUrl: jdbc:mysql://localhost:3306/commodity_management?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+  geUsername: root
+  gePassword: root

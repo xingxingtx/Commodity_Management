@@ -34,7 +34,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>,T> implements IBaseService<
 
     @Override
     public Integer insertBatch(List<T> var1) {
-        return null;
+        return baseMapper.insertBatch(var1);
     }
 
     @Override
