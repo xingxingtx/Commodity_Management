@@ -94,3 +94,4 @@ generator:
   geUrl: jdbc:mysql://localhost:3306/commodity_management?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
   geUsername: root
   gePassword: root
+  geDatabaseName: commodity_management

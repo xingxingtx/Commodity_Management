@@ -8,9 +8,12 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,56 +28,46 @@ import java.util.Properties;
  * @Date:2018/12/7 17:11
  * @Version: 1.0
  */
-public class GeneratorCode {
-
-    public static void main(String[] args) {
-
-/* 获取 JDBC 配置文件 */
-        Properties props = getProperties();
+@Configuration
+public class GeneratorCodeConfig {
+    @Bean
+    public AutoGenerator getAutoGenerator(){
         AutoGenerator mpg = new AutoGenerator();
+        /**
+         * 设置全局配置
+         */
+        mpg.setGlobalConfig(getGlobalConfig());
+        /**
+         * 设置数据源
+         */
 
-        String outputDir = "F:\\codege";
-        final String viewOutputDir = outputDir + "/view/";
+        mpg.setDataSource(getDataSourceConfig());
+        /**
+         * 设置策略配置
+         */
+        mpg.setStrategy(getStrategyConfig());
+        /**
+         * 设置包配置
+         */
+        mpg.setPackageInfo(getPackageConfig());
 
-        // 全局配置
-        GlobalConfig gc = new GlobalConfig();
-        File Dir = new File(outputDir);
-        if (!Dir.exists()) {
-            Dir.mkdirs();
-        }
-        gc.setOutputDir(outputDir);
-        gc.setFileOverride(true);
-        gc.setActiveRecord(true);// 开启 activeRecord 模式
-        gc.setEnableCache(false);// XML 二级缓存
-        gc.setBaseResultMap(true);// XML ResultMap
-        gc.setBaseColumnList(false);// XML columList
-        gc.setAuthor("wei.peng");
+        /**
+         * 设置注入自定义配置
+         */
+        mpg.setCfg(getInjectionConfig());
+        return  mpg;
+    }
 
-        // 自定义文件命名，注意 %s 会自动填充表实体属性！
-        gc.setMapperName("%sMapper");
-        gc.setXmlName("%sMapper");
-        gc.setServiceName("I%sService");
-        gc.setServiceImplName("%sServiceImpl");
-        gc.setControllerName("%sController");
-        mpg.setGlobalConfig(gc);
-
-        // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setDbType(DbType.MYSQL);
-        dsc.setTypeConvert(new MySqlTypeConvert());
-        dsc.setDriverName(props.getProperty("geDriver"));
-        dsc.setUsername(props.getProperty("geUrl"));
-        dsc.setPassword(props.getProperty("gePassword"));
-        dsc.setUrl(props.getProperty("geUrl"));
-        mpg.setDataSource(dsc);
-
+    @Bean
+    public StrategyConfig getStrategyConfig() {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名
         // strategy.setDbColumnUnderline(true);//全局下划线命名
 //		strategy.setTablePrefix(new String[] { "bmd_", "mp_" });// 此处可以修改为您的表前缀
-        strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        // strategy.setInclude(new String[] { "user" }); // 需要生成的表
+        /**表名生成策略*/
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+       // strategy.setInclude(new String[]{"user"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -94,21 +87,38 @@ public class GeneratorCode {
         // 【实体】是否为构建者模型（默认 false）
         // public User setName(String name) {this.name = name; return this;}
         // strategy.setEntityBuliderModel(true);
-        mpg.setStrategy(strategy);
+        /**
+         * 获取配置文件
+         *
+         * @return 配置Props
+         */
+        return strategy;
+    }
+    @Bean
+    private static Properties getProperties() {
+        // 读取配置文件
+        Resource resource = new ClassPathResource("/application-dev.yml");
+        Properties props = new Properties();
+        try {
+            props = PropertiesLoaderUtils.loadProperties(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return props;
+    }
 
-        // 包配置
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName(null);  //所属模块
-        pc.setParent("com.wei"); // 自定义包路径
-        pc.setController("controller"); // 这里是控制器包名，默认 web
-        pc.setEntity("model");
-        pc.setXml("sqlMapperXml");
-        mpg.setPackageInfo(pc);
-
+    /**
+     * 注入自定义配置
+     * @return
+     */
+    @Bean
+    public InjectionConfig getInjectionConfig() {
+        String viewOutputDir = "F:\\codege\\view\\";
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
         InjectionConfig cfg = new InjectionConfig() {
             @Override
-            public void initMap() {}
+            public void initMap() {
+            }
         };
         // 生成的模版路径，不存在时需要先新建
         File viewDir = new File(viewOutputDir);
@@ -135,29 +145,63 @@ public class GeneratorCode {
             }
         });
         cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
-
-        // 执行生成
-        mpg.execute();
+        return cfg;
+    }
+    @Bean
+    public DataSourceConfig getDataSourceConfig() {
+     /* 获取 JDBC 配置文件 */
+        Properties props = getProperties();
+        // 数据源配置
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setDbType(DbType.MYSQL);
+        dsc.setTypeConvert(new MySqlTypeConvert());
+        dsc.setDriverName(props.getProperty("geDriver"));
+        dsc.setUsername(props.getProperty("geUsername"));
+        dsc.setPassword(props.getProperty("gePassword"));
+        dsc.setUrl(props.getProperty("geUrl"));
+        return  dsc;
+    }
+    /**
+     * 包配置
+     * @return
+     */
+    @Bean
+    public PackageConfig getPackageConfig() {
+        PackageConfig pc = new PackageConfig();
+        pc.setModuleName(null);  //所属模块
+        pc.setParent("com.wei"); // 自定义包路径
+        pc.setController("controller"); // 这里是控制器包名，默认 web
+        pc.setEntity("model");
+        pc.setXml("sqlMapperXml");
+        return pc;
     }
 
-
-
     /**
-     * 获取配置文件
-     *
-     * @return 配置Props
+     *  全局配置
+     * @return
      */
-    private static Properties getProperties() {
-        // 读取配置文件
-        Resource resource = new ClassPathResource("/application-dev.yml");
-        Properties props = new Properties();
-        try {
-            props = PropertiesLoaderUtils.loadProperties(resource);
-        } catch (IOException e) {
-            e.printStackTrace();
+    @Bean
+    public GlobalConfig getGlobalConfig() {
+        String outputDir = "F:\\codege";
+        GlobalConfig gc = new GlobalConfig();
+        File Dir = new File(outputDir);
+        if (!Dir.exists()) {
+            Dir.mkdirs();
         }
-        return props;
+        gc.setOutputDir(outputDir);
+        gc.setFileOverride(true);
+        gc.setActiveRecord(true);// 开启 activeRecord 模式
+        gc.setEnableCache(false);// XML 二级缓存
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(false);// XML columList
+        gc.setAuthor("wei.peng");
+        // 自定义文件命名，注意 %s 会自动填充表实体属性！
+        gc.setMapperName("%sMapper");
+        gc.setXmlName("%sMapper");
+        gc.setServiceName("I%sService");
+        gc.setServiceImplName("%sServiceImpl");
+        gc.setControllerName("%sController");
+        return gc;
     }
 
     /**
