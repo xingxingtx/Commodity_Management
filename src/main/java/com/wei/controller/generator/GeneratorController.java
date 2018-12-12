@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.wei.untils.define.StatusDefine;
 import com.wei.untils.define.StatusDefineMessage;
 import com.wei.untils.jdbc.JDBCUtils;
+import com.wei.untils.jdbc.TableInfo;
 import com.wei.untils.jdbc.TableInformation;
 import com.wei.untils.json.JsonResponseData;
 import io.swagger.annotations.Api;
@@ -73,10 +74,10 @@ public class GeneratorController {
             ){
         logger.debug("tableName"+ tableName);
         try {
-            Map<String, List<TableInformation>> tableInformation = utils.getTableInformation(tableName);
+            List<TableInfo> tableInfo = utils.getTableInformation(tableName);
             return new JsonResponseData(true,
                     StatusDefineMessage.GetMessage(StatusDefine.SUCCESS), StatusDefine.SUCCESS,
-                    "查询成功", tableInformation).toString();
+                    "查询成功", tableInfo).toString();
         } catch (Exception e) {
             e.printStackTrace();
             return new JsonResponseData(false,

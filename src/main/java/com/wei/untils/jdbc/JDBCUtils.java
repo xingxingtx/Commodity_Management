@@ -60,8 +60,8 @@ public class JDBCUtils {
     /*
     *获取表的信息
     */
-    public  Map<String, List<TableInformation>> getTableInformation(String tableName) throws Exception{
-        Map<String, List<TableInformation>> tableMap = new HashMap<String, List<TableInformation>>();
+    public  List<TableInfo> getTableInformation(String tableName) throws Exception{
+        List<TableInfo> info = new ArrayList<>();
         //tableName为空时取所有表的字段
         if(StringUtils.isEmpty(tableName)){
             tableName = "%";
@@ -76,6 +76,7 @@ public class JDBCUtils {
              tableRet = metaData.getTables(null,"%",tableName,new String[]{"TABLE"});
             //3. 提取表的名字。
             while(tableRet.next()) {
+                TableInfo tableInfo = new TableInfo();
                 List<TableInformation> list = new ArrayList<>();
                 //4. 提取表内的字段的名字和类型
                 String columnName;
@@ -100,7 +101,9 @@ public class JDBCUtils {
                     tableInformation.setNullAble(nullable);
                     list.add(tableInformation);
                 }
-                tableMap.put(tableRet.getString("TABLE_NAME"),list);
+                tableInfo.setTableName(tableRet.getString("TABLE_NAME"));
+                tableInfo.setTableInformation(list);
+                info.add(tableInfo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +111,7 @@ public class JDBCUtils {
             //关闭连接
             closeConnection(conn,tableRet,null);
         }
-        return tableMap;
+        return info;
     }
 
     public  void closeConnection(Connection connection, PreparedStatement preparedStatement){

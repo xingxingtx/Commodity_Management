@@ -51,8 +51,8 @@ public class UserController {
 
         return  null;
     }
-    @RequestMapping("/document")
-    public Documentation getDocu() {
+    @RequestMapping("/generator/document")
+    public Documentation getDocument() {
         Documentation documentation = documentationCache.documentationByGroup("default");
         System.out.println(documentation);
         return documentation;
