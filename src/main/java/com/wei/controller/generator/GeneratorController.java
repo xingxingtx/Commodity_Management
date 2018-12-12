@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.wei.untils.define.StatusDefine;
 import com.wei.untils.define.StatusDefineMessage;
-import com.wei.untils.jdbc.JDBCUtils;
+import com.wei.untils.jdbc.JdbcUtils;
 import com.wei.untils.jdbc.TableInfo;
-import com.wei.untils.jdbc.TableInformation;
 import com.wei.untils.json.JsonResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName:GeneratorController
@@ -41,7 +39,7 @@ public class GeneratorController {
      @Autowired
      private StrategyConfig strategyConfig;
      @Autowired
-     private JDBCUtils utils;
+     private JdbcUtils utils;
 
 
     @RequestMapping(value = "/api/generator",method = RequestMethod.GET )

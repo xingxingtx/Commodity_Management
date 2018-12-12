@@ -8,17 +8,17 @@ import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
- * Created by weipeng on 2018/8/30.
+ *
+ * @author weipeng
+ * @date 2018/8/30
  */
 @Component
 @Configuration
-public class JDBCUtils {
+public class JdbcUtils {
     public   static String driver;
     public   static String url;
     public   static String userName;
@@ -156,22 +156,22 @@ public class JDBCUtils {
 
     @Value("${generator.geDriver}")
     public  void setDriver(String driver) {
-        JDBCUtils.driver = driver;
+        JdbcUtils.driver = driver;
     }
     @Value("${generator.geUrl}")
     public  void setUrl(String url) {
-        JDBCUtils.url = url;
+        JdbcUtils.url = url;
     }
     @Value("${generator.geUserName}")
     public  void setUserName(String userName) {
-        JDBCUtils.userName = userName;
+        JdbcUtils.userName = userName;
     }
     @Value("${generator.gePossWord}")
     public  void setPossWord(String possWord) {
-        JDBCUtils.possWord = possWord;
+        JdbcUtils.possWord = possWord;
     }
     @Value("${generator.geDatabaseName}")
     public  void setDatabaseName(String databaseName) {
-        JDBCUtils.databaseName = databaseName;
+        JdbcUtils.databaseName = databaseName;
     }
 }
