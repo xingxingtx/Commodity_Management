@@ -87,11 +87,6 @@ public class GeneratorCodeConfig {
         // 【实体】是否为构建者模型（默认 false）
         // public User setName(String name) {this.name = name; return this;}
         // strategy.setEntityBuliderModel(true);
-        /**
-         * 获取配置文件
-         *
-         * @return 配置Props
-         */
         return strategy;
     }
     @Bean

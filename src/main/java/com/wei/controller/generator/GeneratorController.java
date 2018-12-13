@@ -52,6 +52,8 @@ public class GeneratorController {
         logger.debug("表集合:"+ tableNames);
         logger.debug("生成代码路径" + baseDir);
         try {
+            //strategyConfig.setInclude(tableNames);
+            //generator.setStrategy(strategyConfig);
             generator.execute();
             return new JsonResponseData(true,
                     StatusDefineMessage.GetMessage(StatusDefine.SUCCESS), StatusDefine.SUCCESS,
